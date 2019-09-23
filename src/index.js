@@ -37,8 +37,46 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
+
+const dot = '10';
+const dotSymbol = '.';
+const dash = '11';
+const dashSymbol = '-';
+const space = '**********';
+const letterRegex = /\d{10}/gm;
+const symbolsRegex = /\d{2}/gm;
+
 function decode(expr) {
-    // write your solution here
+    const words = expr.split(space);
+    let wordsDecoded = [];
+
+    words.forEach(word => {
+        let wordDecoded = '';
+        const letters = word.match(letterRegex);
+
+        letters.forEach(letter => {
+            const symbols = letter.match(symbolsRegex);
+            let letterEncoded = '';
+
+            symbols.forEach(symbol => {
+                switch (symbol) {
+                    case dot:
+                        letterEncoded += dotSymbol;
+                        break;
+                    case dash:
+                        letterEncoded += dashSymbol;
+                    default:
+                        break;
+                }
+            });
+
+            wordDecoded += MORSE_TABLE[letterEncoded];
+        });
+
+        wordsDecoded.push(wordDecoded);
+    });
+
+    return wordsDecoded.join(' ');
 }
 
 module.exports = {
