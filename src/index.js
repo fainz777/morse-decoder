@@ -79,6 +79,42 @@ function decode(expr) {
     return wordsDecoded.join(' ');
 }
 
+const symbols = {
+    '00': '',
+    '10': '.',
+    '11': '-',
+    '**': ' '
+}
+
+function decode2(expr) {
+    let decodeStr = '';
+    let letter = '';
+    let symbol = '';
+
+    for (let i = 0; i < expr.length; i++) {
+        symbol += expr[i];
+
+        if ((i + 1) % 2 === 0) {
+            
+            letter += symbols[symbol];
+            symbol = '';
+        }
+
+        if ((i + 1) % 10 === 0) {
+            if (letter.indexOf(' ') !== -1) {
+                decodeStr += ' ';
+            } else {
+                 decodeStr += MORSE_TABLE[letter];
+            }
+            
+            letter = '';
+        }
+    }
+
+    return decodeStr;
+}
+
+
 module.exports = {
     decode
 }
